@@ -1,0 +1,8 @@
+DAA 2024 mid-term question:
+
+1) greedy algo (knapsack Algo)
+2) Lamps/Streetlights CodeSignal Coding Question - Sweep Line Algorithm (leetcode hard)
+yt link for this question: https://www.youtube.com/watch?v=9wy6OA3Yvpg
+3) array sorting in o(1) (without creating an additional array)
+4) recurrence and master theorem
+5) language L {0,1}* like automata, sort all 1s together and 0s together
