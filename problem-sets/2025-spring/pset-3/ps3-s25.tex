@@ -1,0 +1,107 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epsfig}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in { {\bf CSE 317 Design and Analysis of Algorithms } \hfill #2 }
+      \vspace{4mm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\em #3 \hfill #4} }
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{#4}{#1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+%\renewcommand{\baselinestretch}{1.25}
+
+\begin{document}
+
+\lecture{Problem Set 3}{\textit{Assigned: Thursday, 9 Apr}}{Spring 2025}{Due: \textit{11:59 pm Monday,  Apr 21}}
+
+\centerline{{\Large To facilitate grading and timely feedback}}
+\centerline{{\Large please note that all submissions are through \href{http://gradescope.com}{Gradescope}.}}
+\centerline{}
+\centerline{{\Large Solve each problem on a new page and put your name on each page.}}
+\centerline{{\Large Clearly identify all collaborations and resources used in preparing the solutions.}}
+\centerline{{\Large You should typeset your solutions using \LaTeX and correctly link}}
+\centerline{{\Large solutions on Gradescope.}}
+\begin{enumerate}
+
+\item You own a piece of beachfront property, which we represent by the unit interval. There are $n$ interested buyers, each of whom is willing to pay some price for a particular subinterval. Your goal, for better or worse, is to make as much money as possible: that is, to find the
+subset of buyers who will give you the largest total price, subject to the constraint that you cannot sell overlapping subintervals.
+
+There is no guarantee that the prices increase with the length of the subinterval, or even that the price of a subinterval is less than that of one that contains it, since different buyers value different sections of beach in arbitrary ways. Of course, the beach itself is public, and there is a large setback required in order to preserve the coral reef.
+
+Formally, given the list of prices $v_i$ and subintervals $[x_i, y_i]$ where $i = 1, \ldots, n$, your goal is to find the subset $S \subseteq \{1, \ldots , n \}$ that maximizes $\sum_{i \in S} v_i$ subject to the constraint that $[x_i, y_i ] \cap [ x_j, y_j ] = \emptyset$ for all $i, j \in S$ with $i \neq j$. Show that we can solve this problem in polynomial time using dynamic programming.
+
+\item Even when dynamic programming doesn’t give a polynomial-time algorithm,
+it can sometimes give a better exponential-time one. A naive search algorithm for \emph{Hamiltoninan Path} takes $n! \approx n^ne^{-n}$ time to try all possible orders in which we could visit the vertices. If the graph has maximum degree $d$, we can reduce this to $O(d^n)$, but $d$ could be $\Theta(n)$, giving roughly $n^n$ time again. Use dynamic programming
+to reduce this to a simple exponential, and solve \emph{Hamiltonian Path} in $2^n \textrm{poly}(n)$ time. How much memory do you need for your solution?
+
+
+\item A labelled tree is a tree whose $n$ vertices are labeled with the numbers $1,\ldots, n$. We
+consider two labelled trees distinct based not just on their topology, but on their labels. Cayley’s formula states that the number $T_n$ of labelled trees with $n$ vertices is $n^{n-2}$. Here are the $3^1$ labelled trees with $n = 3$:
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.7]{ps3s25-f2.png}   
+\end{figure}
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=.5]{ps3s25-f1.png}   
+\caption{The Pr{\"u}fer code of a labelled tree.}
+\label{fig1}
+\end{figure}
+\newline
+We can prove Cayley’s formula constructively by giving a one-to-one map from the set of labelled trees to the set of all sequences $(p_1,\ldots, p_{n-2})$ with $p_i \in \{1, \ldots, n\}$. The map works like this. Start with the empty sequence, and do the following until only two vertices remain: at each step, cut the leaf with the smallest label from the tree, and append the label of its neighbor to the sequence. This map is called the the \emph{Pr{\"u}fer} code. See Figure~\ref{fig1} for an example. Prove that the \emph{Pr{\"u}fer} code is one-to-one by showing how to reverse the map. That is show how to reconstruct the tree from a given sequence $(p_1,\dots, p_{n-2})$. 
+
+
+\item In physics, a \emph{spin glass} consists of a graph, where each vertex $i$ has a ``spin" $s_i = \pm 1$ representing an atom whose magnetic field is pointing up or down. Each edge $(i, j)$ has an interaction strength $J_{ij}$ describing to what extent $s_i$ and $s_j$ interact. Additionally, each vertex $i$ can have an external field $h_i$. Given a state of the system, i.e., a set of values for the $s_i$, the energy is
+\begin{equation*}
+E(\{s_i\}) = -\sum_{ij} J_{ij}s_i s_j - \sum_i h_i s_i.
+\end{equation*}
+The system tries to minimize its energy, at least in the limit of zero temperature. An edge $(i, j)$ is called ferromagnetic if $J_{ij} \geq 0$, and antiferromagnetic if $J_{ij} < 0$. Then ferromagnetic edges want $i$ and $j$ to be the same, and antiferromagnetic edges want them to be different. In addition, an external field $h_i$ that is positive or negative wants $s_i$ to be $+1$ or $–1$ respectively.
+Minimizing the energy or in other words, finding the ground state of the system gives the following optimization problem:
+
+\begin{itemize}
+\item \emph{Input:} A graph G with interaction strengths $J_{ij}$ and external fields $h_i$
+
+\item \emph{Output:} The state $s_i$ that has the lowest energy.
+\end{itemize}
+
+Show that in the ferromagnetic case, where $J_{ij} \geq 0$ for all $i, j$, this problem is in \textsf{P} by reducing it to \emph{Min-Cut}.
+
+\end{enumerate}
+\end{document}

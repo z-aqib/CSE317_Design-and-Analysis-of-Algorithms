@@ -1,0 +1,176 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in { {\bf CSE 317 Design and Analysis of Algorithms } \hfill #2 }
+      \vspace{4mm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\em #3 \hfill #4} }
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{#4}{#1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+%\renewcommand{\baselinestretch}{1.25}
+
+\begin{document}
+
+\lecture{Problem Set 2}{\textit{Assigned: Wenesday, 12 Feb}}{Spring 2025}{Due: \textit{11:59 pm Monday, 3 Mar}}
+
+\centerline{{\Large To facilitate grading and timely feedback}}
+\centerline{{\Large please note that all submissions are through \href{http://gradescope.com}{Gradescope}.}}
+\centerline{}
+\centerline{{\Large Solve each problem on a new page and put your name on each page.}}
+\centerline{{\Large Clearly identify all collaborations and resources used in preparing the solutions.}}
+\centerline{{\Large You should typeset your solutions using \LaTeX and correctly link}}
+\centerline{{\Large solutions on Gradescope.}}
+\begin{enumerate}
+\item Here is another way to analyze randomized quicksort. Let $X_{ij}$
+be the indicator random variable given by 
+\begin{equation*}
+X_{ij}=\begin{cases}
+			1 & \text{if the $i^{th}$ smallest item in the list ever gets compared with the $j^{th}$ smallest one}\\
+            0 & \text{otherwise.}
+		 \end{cases}
+\end{equation*}
+The total number of comparisons then is 
+\begin{equation*}
+X = \sum_{1 \leq i < j \leq n} X_{ij}. 
+\end{equation*}
+
+Show that this gives
+\begin{equation*}
+\mathbb{E}\left[X \right] =  2 \sum_{j=1}^n (H_j-1),
+\end{equation*}
+where $H_j=\sum_{k=1}^j \frac{1}{k}$ is the $j^\text{th}$ harmonic number.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=.5]{maj.png}   
+\caption{Majority tree of depth $2$.}
+\end{figure}
+\item Suppose we have a tree where each node has three children, so a tree of depth $k$ has $N =
+3^k$ leaves. Place a $MAJORITY$ gate at each node which outputs the majority of its children’s truth values. 
+Show that by evaluating the subtrees in random order, we can evaluate the entire tree while only looking at
+\begin{equation*}
+\left( \frac{8}{3} \right)^k = N^{\log_3 (8/3)}
+\end{equation*}
+leaves on average.
+
+\item We are given a coin that may or may not be biased, and we would like to compute
+an accurate estimate of the probability of heads. Specifically, if the actual unknown
+probability of heads is $p$, we would like to compute an estimate $\tilde{p}$ such that
+\begin{equation*}
+\text{Pr} (\left| \tilde{p} - p \right| > \epsilon) < \delta,
+\end{equation*}
+where $\epsilon$ is a given accuracy or error parameter, and $\delta$ is a given confidence parameter. The following algorithm is a natural first attempt. Here $Flip()$ returns the result of an independent flip of the unknown coin.
+
+\begin{figure}[ht]
+  \centering
+  \begin{minipage}{.5\linewidth}
+\begin{algorithm}[H]
+\caption{Algorithm to estimate mean}\label{alg:cap}
+\begin{algorithmic}
+\Procedure{MeanEstimate}{$\epsilon$}
+\State $count \gets 0$
+\For{$i \gets 1 \texttt{ to } N$} 
+\If{$Flip() = Heads$}
+    \State$count \gets count + 1$
+\EndIf
+\EndFor
+\State \Return $count/N$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+  \end{minipage}
+\end{figure}
+\begin{enumerate}
+\item Let $\tilde{p}$ denote the estimate returned by $MeanEstimate(\epsilon)$. Prove that $\mathbb{E}(\tilde{p}) = p$.
+
+\item Prove using Chebyshev's inequality that if we set $N = \lceil \frac{\alpha}{\epsilon^2} \rceil$ for some appropriate constant $\alpha$, then we have
+\begin{equation*}
+\text{Pr} (\left| \tilde{p} - p \right| > \epsilon) < \frac{1}{4}.
+\end{equation*}
+\end{enumerate}
+
+\item Suppose we have a binary counter such that the cost to
+increment or decrement the counter is equal to the number of bits that need to be flipped. We saw in class that if the counter begins at $0$, and we perform $n$ increments, the amortized cost per increment is just $O(1)$. Equivalently, the total cost to perform all $n$ increments is $O(n)$. 
+
+Suppose that we want to be able to both increment and decrement the counter.
+\begin{enumerate}
+\item Show a sequence of $n$ operations allowing both increments and decrements and
+starting from $0$ that, without ever making the counter go negative, costs 
+$\Omega(\log n)$ amortized per operation (i.e., $\Omega(n \log n)$ total cost).
+%\end{enumerate}
+To reduce the cost observed in part (a) we'll consider the following \emph{redundant ternary
+number system}. A number is represented by a sequence of \emph{trits}, each of which is $0, +1,$
+or $-1$. The value of the number represented by $t_{k-1},\ldots,t_0$ (where each $t_i, 0 \leq i \leq k-1$
+is a trit) is defined to be
+\begin{equation*}
+\sum_{i=0}^{k-1} t_i 2^i .
+\end{equation*}
+For example, $\boxed{1}\boxed{0}\boxed{\textrm{-}1}$ is a representation for $2^2 - 2^0 = 3$.
+
+The process of incrementing a ternary number is analogous to that operation on binary
+numbers. You add $1$ to the low order trit. If the result is $2$, then it is changed to $0$,
+and a carry is propagated to the next trit. This process is repeated until no carry
+results. Decrementing a number is similar. You subtract $1$ from the low order trit.
+If it becomes $-2$ then it is replaced by $0$, and a borrow is propagated. Note that the
+same number may have multiple representations (e.g., $\boxed{1}\boxed{0}\boxed{1} = \boxed{1}\boxed{1}\boxed{\textrm{-}1}$ ). That is why this is called a redundant ternary number system. The cost of an increment or a
+decrement is the number of trits that change in the process.
+%\begin{enumerate}[resume]
+\item Starting from $0$, a sequence of $n$ increments and decrements is done. Give a clear,
+coherent proof that with this representation, the amortized cost per operation is
+$O(1)$ (i.e., the total cost for the $n$ operations is $O(n)$). Hint: think about a ``bank account'' or ``potential function'' argument.
+\end{enumerate}
+
+\item Tabulated hashing uses tables of random numbers to compute hash values. Suppose
+$\left| \mathcal{U} \right| = 2^w \times 2^w$ and $m = 2^l$, so the items being hashed are pairs of $w$-bit strings and hash values are $l$-bit strings. Let $A[0 \ldots 2^w - 1]$ and $B[0 \ldots 2^w - 1]$ be arrays of independent random $l$-bit strings, and define the hash function $h_{A,B} : \mathcal{U} \mapsto [m]$ by setting 
+\begin{equation*}
+h_{A,B}(x, y) = A[x] \oplus B[ y]
+\end{equation*}
+where $\oplus$ denotes bit-wise exclusive-or. Let $\mathcal{H}$ denote the set of all possible functions $h_{A,B}$. Filling the arrays $A$ and $B$ with independent random bits is equivalent to choosing a hash function $h_{A,B} \in \mathcal{H}$ uniformly at random.
+\begin{enumerate}
+\item Prove that $\mathcal{H}$ is $2$-uniform.
+\item Prove that $\mathcal{H}$ is $3$-uniform.
+\end{enumerate}
+\end{enumerate}
+\end{document}

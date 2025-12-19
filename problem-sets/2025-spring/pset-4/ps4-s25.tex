@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{epsfig}
+\usepackage{amsfonts}
+
+\usepackage{geometry}
+\usepackage{enumitem}
+
+%\geometry{margin=1in}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in { {\bf CSE 317 Design and Analysis of Algorithms } \hfill #2 }
+      \vspace{4mm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\em #3 \hfill #4} }
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{#4}{#1}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+%\renewcommand{\baselinestretch}{1.25}
+
+\begin{document}
+
+\lecture{Problem Set 4}{\textit{Assigned: Thursday, 24 Apr}}{Spring 2025}{Due: \textit{11:59 pm Saturday,  May 10}}
+
+\centerline{{\Large To facilitate grading and timely feedback}}
+\centerline{{\Large please note that all submissions are through \href{http://gradescope.com}{Gradescope}.}}
+\centerline{}
+\centerline{{\Large Solve each problem on a new page and put your name on each page.}}
+\centerline{{\Large Clearly identify all collaborations and resources used in preparing the solutions.}}
+\centerline{{\Large You should typeset your solutions using \LaTeX and correctly link}}
+\centerline{{\Large solutions on Gradescope.}}
+\begin{enumerate}
+
+\item \textbf{The Final Showdown.} On your quest to prove yourself the \emph{King of the Math Tournament}, you have made it to the final round of battle against the cunning \textbf{Sheikh Chilly}.
+
+Both of you will be given a sheet of paper with a list of $n$ integers $l[1], l[2], \dots, l[n]$ and $m$ pairs of indices $p_i = (i_1, i_2)$ such that $1 \leq i_1 < i_2 \leq n$. Furthermore, a little birdie has told you that the sum of the two indices $i_1$ and $i_2$ satisfy the property
+\begin{equation*}
+(i_1 + i_2) \,\&\, 1 = 1.
+\end{equation*}
+
+In one operation, you can pick any one of the $m$ pairs $p_i = (i_1, i_2)$, and divide both $l[i_1]$ and $l[i_2]$ by any integer $u$, such that $u > 1$ and divides both the numbers,~i.e.,
+\begin{equation*}
+l[i_k] = \frac{l[i_k]}{u},
+\end{equation*}
+where $l[i_k]$ is either $l[i_1]$ or $l[i_2]$.
+
+You need to find the \emph{maximum} possible divisions that can be performed.
+
+\begin{enumerate}
+
+\item \emph{(8 points)} Construct a reduction that allows you to solve this problem efficiently using one of the algorithms we have encountered in class. 
+
+\item \emph{(7 points)} Finally, claim your title by writing code for your solution and submit it at:
+
+\begin{center}
+\href{https://www.hackerrank.com/ps4-iba}{\texttt{https://www.hackerrank.com/ps4-iba}}
+\end{center}
+
+Your solution must pass \textbf{all test cases} for full credit. \textbf{Please ensure that your code submission includes your gradescope username!}
+
+\textbf{Input:}
+\begin{itemize}
+    \item The first line contains two integers $n$ and $m$ $(2 \leq n \leq 100, 1 \leq m \leq 250)$ - the size of the list and the number of valid index pairs.
+    \item The second line contains $n$ integers $l[1], l[2], \dots, l[n]$ $(1 \leq l[i] \leq 10^9)$.
+    \item The next $m$ lines each contain two integers $i_k$ and $j_k$ $(1 \leq i_k < j_k \leq n)$, such that $(i_k + j_k) \,\&\, 1 = 1$. All pairs are distinct.
+\end{itemize}
+
+\textbf{Output:}
+
+Output a single integer - the maximum number of operations that can be performed.
+\newpage
+\textbf{Constraints:}
+
+\begin{itemize}
+    \item $2 \leq n \leq 100$
+    \item $1 \leq m \leq 250$
+    \item $1 \leq l[i] \leq 10^9$
+    \item $1 \leq i_k < j_k \leq n$
+    \item $(i_k + j_k) \,\&\, 1 = 1$
+    \item All pairs are distinct
+\end{itemize}
+\end{enumerate}
+\emph{Hint from TA lead Maaz on the question:} What does $(i_1 + i_2) \,\&\, 1 = 1$ imply ?
+
+
+\item \textbf{There You Go, Gressing Again.} Suppose you have a set of $m$ data points
+\begin{equation*}
+(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \ldots , (x^{(m)}, y^{(m)}).
+\end{equation*}
+Each data point $(x^{(i)}, y^{(i)})$ has $x^{(i)} \in \mathbb{R}$ and $y^{(i)} \in \mathbb{R}$. Think of $x^{(i)}$ as the \emph{location} where you performed an observation and $y^{(i)}$ as the actual observation. The (vertical) distance of some data point $(x^{(i)}, y^{(i)})$ to the line $y = ax + c$ is
+\begin{equation*}
+\left| (ax^{(i)} + c) - y^{(i)} \right|.
+\end{equation*}
+(The distance function varies with the application; often people use ``least-squares
+regression'' $((ax^{(i)} + c) - y^{(i)})^2$, but in this problem we consider ``$\textrm{L}_1$-regression''.)
+
+Show how to solve the following problems using linear programming. In each case give
+a clear argument why your solution is correct. (The size of a constraint in the LP is
+the number of variables in it, and the size of the entire LP is the sum of the sizes of
+its constraints.) All distances below refer to vertical distances.
+
+\begin{enumerate}
+\item Find a line $y = ax + c$ such that the maximum distance of any data point to the
+line is minimized. Your LP should have size $O(m)$.
+
+\item Find a line $y = ax+c$ such that the sum of distances of the m data points to the
+line is minimized. Your LP should have size $O(m)$.
+
+\item Now suppose we want to fit a degree-$k$ curve (instead of a line) to the given data.
+A degree-$k$ curve is $y = c_k x^k+c_{k-1} x^{k-1}+ \cdots +c_2 x^2+c_1 x+c_0$, where the coefficients $c_i \in \mathbb{R}$. So a degree-$1$ curve is just a line. For a degree-$k$ curve $y = P(x)$, the distance of $(x^{(i)}, y^{(i)})$ to the curve is $\left| P(x^{(i)}) - y^{(i)} \right|$.
+Find a degree-$k$ curve minimizing the sum of distances from the $m$ data points to
+the curve. Your LP should have size $O(mk)$.
+
+\item Now imagine the data points lie in a higher dimensional space,~e.g., say the data
+points actually are $(\mathbf{x^{(i)}}, y^{(i)})$ where now $\mathbf{x^{(i)}} \in \mathbb{R}^n$ and $y^{(i)} \in  \mathbb{R}$. We now want a
+degree-$k$ $n$-dimensional curve of the form $y = Q(x_1, x_2, \ldots , x_n)$. For example, a degree-$3$ curve may look like $y = 0.35x^3_1 + 3x^2_1 x_3 - x_2 x_{19} - 0.75x_{53} - 3x_{251} - 5$ or $y = x_1x^2_2 + 19x_7$ or $y = 7x_1x_4x_5+3.2x_2x_5$. The distance of data point $(\mathbf{x^{(i)}}, y^{(i)})$ to
+the curve is again $\left| Q(\mathbf{x^{(i)}}) - y^{(i)} \right|$. 
+Give an LP of size at most $O(m (n+k)^k)$ size that finds an $n$-dimensional degree-$k$ curve that minimizes the sum of distances of data points from the curve.
+\end{enumerate}
+
+\item \textbf{Some Dude's Theorem.} Prove that any point in the convex hull of a set $S \subseteq \mathbb{R}^n$ can be expressed as a convex combination of a set of at most $(n+1)$ points from $S$.
+
+\item \textbf{Some Sums.} The ``3-Sum'' problem is the following: you are given 3 sets $A, B$
+and $C$ of $n$ integers each. Your goal is to determine if there exists $a \in A$, $b \in B$ and
+$c \in C$ such that $a + b = c$. A simple $O(n^2)$ time algorithm to solve this problem is to hash every element in $C$, and then for each pair of elements $a \in A$ and $b \in B$ to add them up and do a hash lookup on the sum.
+
+It turns out that no $o(n^2)$-time algorithm is known for this problem. However, if the
+numbers are all integers between 0 and $m$, then you can solve this problem in time
+$O(m \log m)$. How?
+
+\end{enumerate}
+\end{document}
