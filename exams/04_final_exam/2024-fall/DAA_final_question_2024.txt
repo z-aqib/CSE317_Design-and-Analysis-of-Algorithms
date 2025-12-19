@@ -1,0 +1,7 @@
+DAA 2024 final question:
+
+1) analyzing algo
+2) monte carlo and las vegas algo
+3) parallel algo
+4) dominating set reduction by either vertex cover or independing set
+5) reduction and proof by 3SAT 
